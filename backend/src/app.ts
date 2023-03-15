@@ -1,6 +1,7 @@
 // app.ts
 import express from 'express';
 import path from 'path';
+
 import { handleHome, handleAbout } from './routes/routes';
 
 const app = express();
