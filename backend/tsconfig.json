@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "rootDir": ".",
+    "outDir": "build"
+  },
+  "include": ["src/**/*.ts", ".eslintrc.js", "jest.config.js", "tsconfig.json"],
+  "baseUrl": "./src",
+  "paths": {
+    "@view/*": ["views/*"]
+  },
+  "exclude": ["node_modules"]
+}
