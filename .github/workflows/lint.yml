@@ -21,6 +21,8 @@ jobs:
 
     - name: Install dependencies
       run: yarn install --frozen-lockfile
+      working-directory: ./backend
 
     - name: Run linter
       run: yarn lint
+      working-directory: ./backend
