@@ -13,13 +13,13 @@
 }
 
 .card {
-  /* Les styles de base de la carte */
+  /* Basic map styles */
   position: relative;
   transform-style: preserve-3d;
   transition: transform 0.5s;
 }
 
 .card.is-flipped {
-  /* Les styles de la carte quand elle est tournée */
+  /* The styles of the card when it is turned */
   transform: rotateY(180deg);
 }
