@@ -6,5 +6,5 @@ export function handleHome(req: Request, res: Response) {
 }
 
 export function handleAbout(req: Request, res: Response) {
-  res.render('about'  );
+  res.render('about');
 }
