@@ -1,0 +1,25 @@
+.card {
+  width: 100px;
+  height: 150px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  text-align: center;
+  line-height: 150px;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px;
+  float: left;
+}
+
+.card {
+  /* Les styles de base de la carte */
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+}
+
+.card.is-flipped {
+  /* Les styles de la carte quand elle est tournée */
+  transform: rotateY(180deg);
+}

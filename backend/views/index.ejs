@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Mon jeu de cartes</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <div class="card" onclick="rotateCard(this)">
+        <!-- Le contenu de votre carte -->
+        OUIII
+    </div>
+
+    <script>
+        function rotateCard(card) {
+            if (card.classList.contains('is-flipped')) {
+                card.classList.remove('is-flipped');
+            } else {
+                card.classList.add('is-flipped');
+            }
+        }
+    </script>
+    <div class="card">Carte 1</div>
+    <div class="card">Carte 2</div>
+    <div class="card">Carte 3</div>
+</body>
+
+</html>
