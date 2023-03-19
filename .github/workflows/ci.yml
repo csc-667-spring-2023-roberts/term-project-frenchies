@@ -2,9 +2,9 @@ name: Jest Test
 
 on:
   push:
-    branches: ["master", "main", "develop", "feat/init-repo"]
+    branches: ["main", "develop"]
   pull_request:
-    branches: ["master", "main", "develop", "feat/init-repo"]
+    branches: ["main", "develop"]
 
 jobs:
   lint:
