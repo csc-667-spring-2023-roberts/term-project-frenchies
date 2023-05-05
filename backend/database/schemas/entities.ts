@@ -3,6 +3,12 @@ export interface ConversationEntity {
   Roomid: number
 }
 
+/* TODO: I think we don't need RoomId but SenderId (user)
+  conversationId: number
+  senderId: number
+  created_at: Date
+  id: number
+*/
 export interface MessageUserEntity {
   Convid: number
   created_at: Date
@@ -27,6 +33,12 @@ export interface SessionEntity {
   sid: string
 }
 
+
+/*TODO: add userId ?
+  currentRoom_id: number
+  userId: number
+  id: number
+*/
 export interface UserToRoomEntity {
   CurrentRoomid: number
   id: number
