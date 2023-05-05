@@ -1,19 +1,13 @@
 export interface ConversationEntity {
   id: number
-  Roomid: number
+  room_id: number
 }
 
-/* TODO: I think we don't need RoomId but SenderId (user)
-  conversationId: number
-  senderId: number
-  created_at: Date
-  id: number
-*/
 export interface MessageUserEntity {
-  Convid: number
+  conv_id: number
   created_at: Date
   id: number
-  Roomid: number
+  sender_id: number
 }
 
 export interface PgmigrationEntity {
@@ -33,15 +27,10 @@ export interface SessionEntity {
   sid: string
 }
 
-
-/*TODO: add userId ?
-  currentRoom_id: number
-  userId: number
-  id: number
-*/
 export interface UserToRoomEntity {
-  CurrentRoomid: number
+  currentroom_id: number
   id: number
+  user_id: number
 }
 
 export interface UserEntity {
