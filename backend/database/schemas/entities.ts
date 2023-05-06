@@ -4,6 +4,7 @@ export interface ConversationEntity {
 }
 
 export interface MessageUserEntity {
+  content: string
   conv_id: number
   created_at: Date
   id: number
