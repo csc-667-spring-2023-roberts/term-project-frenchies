@@ -7,13 +7,15 @@ import queryResultErrorCode = pgPromise.errors.queryResultErrorCode;
 
 export class UserToRoomORM {
     public async Join(userId: number, roomId: number): Promise<UserToRoomEntity> {
+        if (userId === null || userId === undefined || roomId === null || roomId === undefined) {
+          return null as unknown as UserToRoomEntity;
+        }
         const addedUserToRoom = await db.one(
-            'insert into user-to-room (CurrentRoomid, userId) values ($1, $2)',
-            [roomId, userId]
+          'insert into user-to-room (currentroom_id, user_id) values ($1, $2) returning id, currentroom_id, user_id',
+          [roomId, userId]
         );
-
         return addedUserToRoom as UserToRoomEntity;
-    }
+      }
 
     public async FindFirst(condition: FindFirstCondition): Promise<UserToRoomEntity | null> {
         try {

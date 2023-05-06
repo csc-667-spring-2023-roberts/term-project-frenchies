@@ -19,6 +19,19 @@ router.post(
     },
 );
 
+router.get(
+    '/room/list',
+    async (_, res, next) => {
+        try {
+            const foundedRooms = await controllers.FindAll();
+
+            res.status(StatusCodes.OK).send(foundedRooms);
+        } catch (e) {
+            next(e);
+        }
+    },
+);
+
 router.post(
     '/room/join',
     authMiddleware,

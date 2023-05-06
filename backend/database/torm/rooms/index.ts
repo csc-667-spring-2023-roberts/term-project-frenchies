@@ -8,7 +8,7 @@ import queryResultErrorCode = pgPromise.errors.queryResultErrorCode;
 export class RoomORM {
     public async Create(): Promise<RoomEntity> {
         const createdRoom = await db.one(
-            'insert into rooms default values'
+            'INSERT INTO rooms DEFAULT VALUES returning id'
         );
 
         return createdRoom as RoomEntity;
@@ -23,6 +23,22 @@ export class RoomORM {
             );
 
             return room as RoomEntity;
+        } catch (e) {
+            if (e instanceof QueryResultError && e.code === queryResultErrorCode.noData) {
+                return null;
+            }
+
+            throw e;
+        }
+    }
+
+    public async FindAll(): Promise<RoomEntity[] | null> {
+        try {
+            const rooms = await db.any(
+                `SELECT * FROM rooms`
+            );
+
+            return rooms as RoomEntity[];
         } catch (e) {
             if (e instanceof QueryResultError && e.code === queryResultErrorCode.noData) {
                 return null;

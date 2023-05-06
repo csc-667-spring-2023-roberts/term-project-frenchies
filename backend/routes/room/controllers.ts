@@ -26,6 +26,11 @@ export async function SendMessage(roomId: number, content: string, senderId: num
     return sendedMessage;
 }
 
+export async function FindAll() {
+    const rooms = await torm.room.FindAll();
+    return rooms;
+}
+
 export async function GetMessages(roomId: number) {
     const conversation = await torm.conversation.FindFirst({
         where: {

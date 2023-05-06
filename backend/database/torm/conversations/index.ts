@@ -8,7 +8,7 @@ import queryResultErrorCode = pgPromise.errors.queryResultErrorCode;
 export class ConversationORM {
     public async Create(roomId: number): Promise<ConversationEntity> {
         const createdCoversation = await db.one(
-            'insert into conversation (roomid) values ($1)', [roomId]
+            'insert into conversation (room_id) values ($1) returning id, room_id', [roomId]
         );
 
         return createdCoversation as ConversationEntity;

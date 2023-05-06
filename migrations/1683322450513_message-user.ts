@@ -3,6 +3,8 @@ import { MigrationBuilder, ColumnDefinitions } from 'node-pg-migrate';
 
 export const shorthands: ColumnDefinitions | undefined = undefined;
 
+
+// ADD (conversationId, content, senderId)
 export async function up(pgm: MigrationBuilder): Promise<void> {
     pgm.createTable('message-user', {
         id: 'id',
