@@ -5,7 +5,7 @@ export type FindFirstCondition = TormWhereCondition<{
 }>
 
 export type FindAllCondition = TormWhereCondition<{
-    conversationId?: number;
+    conv_id?: number;
 }>
 
 export function FindFirstConditionToQuery(condition: FindFirstCondition): string {
@@ -21,8 +21,8 @@ export function FindFirstConditionToQuery(condition: FindFirstCondition): string
 export function FindAllConditionToQuery(condition: FindAllCondition): string {
     const queryOptions: Array<string> = [];
 
-    if (condition.where.conversationId) {
-        queryOptions.push('conversationId=$1');
+    if (condition.where.conv_id) {
+        queryOptions.push('conv_id=$1');
     }
 
     return queryOptions.join(queryOptions.length === 1 ? '' : ' AND ');

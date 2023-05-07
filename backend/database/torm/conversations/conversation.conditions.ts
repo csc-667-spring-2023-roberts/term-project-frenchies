@@ -13,7 +13,7 @@ export function FindFirstConditionToQuery(condition: FindFirstCondition): string
     }
 
     if (condition.where.roomid) {
-        queryOptions.push('roomid=$2');
+        queryOptions.push('room_id=$2');
     }
 
     return queryOptions.join(queryOptions.length === 1 ? '' : ' AND ');

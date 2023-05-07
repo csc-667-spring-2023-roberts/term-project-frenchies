@@ -3,6 +3,7 @@ import {StatusCodes} from 'http-status-codes';
 import * as controllers from './controllers';
 import authMiddleware from '../../middlewares/auth';
 import { roomExists } from './middlewares';
+import { ApiError } from '../../app.errors';
 
 const router = Router();
 
@@ -41,7 +42,13 @@ router.post(
             const { roomId } = req.body;
 
             if (!user) {
-                throw new Error('User not found or not login');
+                throw new ApiError(StatusCodes.NOT_FOUND, `User not found`)
+            }
+
+            const isUserInRoom = await controllers.isUserInRoom(user.id, roomId);
+
+            if (isUserInRoom) {
+                throw new ApiError(StatusCodes.BAD_REQUEST, 'User is already in this room');
             }
 
             const addedUserToRoom = await controllers.Join(roomId, user.id);
@@ -53,7 +60,6 @@ router.post(
     },
 );
 
-//TODO: check if user is in the room with middlewhere and if room exist
 router.post(
     '/room/message',
     authMiddleware,
@@ -64,7 +70,13 @@ router.post(
             const { content, roomId } = req.body;
 
             if (!user) {
-                throw new Error('User not found or not login');
+                throw new ApiError(StatusCodes.NOT_FOUND, `User not found`)
+            }
+
+            const isUserInRoom = await controllers.isUserInRoom(user.id, roomId);
+
+            if (!isUserInRoom) {
+                throw new ApiError(StatusCodes.BAD_REQUEST, 'User is not in this room');
             }
 
             const sendedMessage = await controllers.SendMessage(roomId, content, user.id);
@@ -76,21 +88,48 @@ router.post(
     },
 );
 
-//TODO: check if user is in the room with middlewhere and if room exist
 router.get(
-    '/room/messages',
+    '/room/:roomId/messages',
     authMiddleware,
     roomExists,
     async (req, res, next) => {
         try {
             const user = req.session.user;
-            const { roomId } = req.body;
+            const roomId  = parseInt(req.params['roomId'])
 
             if (!user) {
-                throw new Error('User not found or not login');
+                throw new ApiError(StatusCodes.NOT_FOUND, `User not found`)
+            }
+
+            const isUserInRoom = await controllers.isUserInRoom(user.id, roomId);
+
+            if (!isUserInRoom) {
+                throw new ApiError(StatusCodes.BAD_REQUEST, 'User is not in this room');
             }
 
             const message = await controllers.GetMessages(roomId);
+
+            res.status(StatusCodes.OK).send(message);
+        } catch (e) {
+            next(e);
+        }
+    },
+);
+
+router.get(
+    '/room/:roomId/users',
+    authMiddleware,
+    roomExists,
+    async (req, res, next) => {
+        try {
+            const user = req.session.user;
+            const roomId  = parseInt(req.params['roomId'])
+
+            if (!user) {
+                throw new ApiError(StatusCodes.NOT_FOUND, `User not found`)
+            }
+
+            const message = await controllers.GetUsers(roomId);
 
             res.status(StatusCodes.OK).send(message);
         } catch (e) {

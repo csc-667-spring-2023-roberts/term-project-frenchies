@@ -32,6 +32,7 @@ export async function FindAll() {
 }
 
 export async function GetMessages(roomId: number) {
+
     const conversation = await torm.conversation.FindFirst({
         where: {
             roomid: roomId,
@@ -44,8 +45,22 @@ export async function GetMessages(roomId: number) {
 
     const messages = await torm.message.FindAll({
         where: {
-            conversationId: conversation.id,
+            conv_id: conversation.id,
         }
     })
     return messages;
+}
+
+export async function GetUsers(roomId: number) {
+
+    const users = await torm.userToRoom.FindAll({
+        where: {
+            currentroom_id: roomId,
+        }
+    })
+    return users;
+}
+
+export async function isUserInRoom(userId:number, roomId: number) {
+    return await torm.userToRoom.isUserInRoom(userId, roomId);
 }

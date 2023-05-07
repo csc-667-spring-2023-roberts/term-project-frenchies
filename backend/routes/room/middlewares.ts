@@ -8,7 +8,11 @@ import QueryResultError = pgPromise.errors.QueryResultError;
 
 export const roomExists: RequestHandler = async (req, res, next: NextFunction) => {
     try {
-        const { roomId } = req.body;
+        let { roomId } = req.body;
+        if (roomId === undefined) {
+            roomId = parseInt(req.params["roomId"])
+        }
+
         const room = await torm.users.FindFirst({
             where: {
                 id: roomId,
