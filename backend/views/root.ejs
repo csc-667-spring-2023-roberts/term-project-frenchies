@@ -1,13 +1,22 @@
+<!DOCTYPE html>
 <html lang="en">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'" />
-    <body>
-        <h1>This is a title</h1>
-        <p>This is a paragraph</p>
-
-    </body>
-    <script>
-        const thisIsAFunction = () => {
-            console.log('test')
+<head>
+    <meta content="default-src 'self'" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
         }
-    </script>
+    </style>
+</head>
+<body>
+<%- include('top-bar') %>
+<h1>This is a title</h1>
+<p>This is a paragraph</p>
+</body>
+<script>
+    const thisIsAFunction = () => {
+        console.log('test')
+    }
+</script>
 </html>

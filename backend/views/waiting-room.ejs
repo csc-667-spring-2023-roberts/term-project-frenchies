@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta content="default-src 'self'" />
+    <style>
+        body {
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid black;
+            padding: 20px;
+            margin: 10px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .card .room-name {
+            font-weight: bold;
+        }
+
+        .card .room-details {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<%- include('top-bar') %> <!-- Including the top bar -->
+<h1>Game Hub</h1>
+<% for (let room of rooms) { %>
+    <a href="/game/<%= room.id %>" class="card">
+        <div class="room-name">Room Name: <%= room.name %></div>
+        <div class="room-details">Players: <%= room.players %> / 15</div>
+        <div class="room-details">Status: <%= room.status %></div>
+    </a>
+<% } %>
+</body>
+</html>

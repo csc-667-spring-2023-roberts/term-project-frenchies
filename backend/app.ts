@@ -10,11 +10,12 @@ import path from 'path';
 
 const app = express();
 
+app.use(express.static(path.join(__dirname, 'js')));
 app.use(session);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(corsMiddleware);
-app.use(helmet());
+// app.use(helmet());
 app.use(requestLoggerMiddleware);
 
 app.use(router);
