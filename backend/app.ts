@@ -6,6 +6,7 @@ import requestLoggerMiddleware from './middlewares/requestLogger';
 import router from './app.routes';
 import notFoundMiddleware from './middlewares/notFound';
 import errorMiddleware from './middlewares/error';
+import path from 'path';
 
 const app = express();
 
@@ -20,5 +21,8 @@ app.use(router);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 export default app;
