@@ -35,7 +35,7 @@
 </head>
 <body>
 <script type="text/javascript" src="/helpers.root.js"></script>
-<%- include('top-bar') %> <!-- Including the top bar -->
+<%- include('top-bar') %>
 <h1>Game Room: <%= room.name %></h1>
 <div class="game-area">
     <div class="player-info">
@@ -61,8 +61,6 @@
         </div>
     <% } %>
 </div>
-
-
 <style>
     .card-area {
         overflow-x: auto;
@@ -110,6 +108,8 @@
         border-color: blue;
     }
 </style>
+
+<%- include('chat') %>
 
 </body>
 </html>
