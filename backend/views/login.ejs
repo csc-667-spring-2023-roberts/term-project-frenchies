@@ -30,10 +30,11 @@
 <body>
 <%- include('top-bar') %> <!-- Including the top bar -->
 <h1>Login</h1>
-<form action="/login" method="POST">
-    <input type="text" name="username" placeholder="Username" required>
-    <input type="password" name="password" placeholder="Password" required>
+<form action="/login" method="POST" id="loginForm">
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
     <button type="submit">Login</button>
 </form>
+<script type="text/javascript" src="/login.js"></script>
 </body>
 </html>
