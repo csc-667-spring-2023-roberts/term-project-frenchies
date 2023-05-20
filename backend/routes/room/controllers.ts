@@ -37,7 +37,6 @@ export async function play(roomId: number, cardId: number, userId: number) {
     const users = await GetUsers(roomId);
 
     if (!users) {
-        console.log('test');
         return;
     }
 
@@ -47,7 +46,6 @@ export async function play(roomId: number, cardId: number, userId: number) {
     const userIndex = users.findIndex(user => user.id === userId);
 
     if (userIndex == -1) {
-        console.log('test2');
         return;
     }
 
