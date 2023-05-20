@@ -2,6 +2,7 @@ import { CardRoomEntity } from '../../database/schemas/entities';
 import {torm} from '../../database/torm';
 import {buildMessageListRO} from './helpers';
 import {UserSession} from '../../app.session';
+import templateCard from '../../database/cards';
 
 export async function Create() {
     const room = await torm.room.Create('test');
@@ -60,7 +61,8 @@ export async function play(roomId: number, cardId: number, userId: number) {
 
     const result = {
         gameInfo : updatedRoom,
-        playerInfos: playerInfos
+        playerInfos: playerInfos,
+        actualCardInfo: templateCard.find((card) => card.card_id === updatedRoom.actual_card)
     };
 
     return result;
@@ -100,8 +102,6 @@ export async function start(roomId: number) {
         }
     });
 
-    console.log(newCardSet);
-
     if (!newCardSet || newCardSet.length === 0) {
         return;
     }
@@ -116,7 +116,8 @@ export async function start(roomId: number) {
 
     const result = {
         gameInfo : updatedRoom,
-        playerInfos: playerInfos
+        playerInfos: playerInfos,
+        actualCardInfo: templateCard.find((card) => card.card_id === updatedRoom.actual_card)
     };
 
     return result;
@@ -131,7 +132,15 @@ export async function myCards(roomId: number, userId: number) {
         }
     });
 
-    return cards;
+    if (!cards) {
+        return [];
+    }
+
+    const cardIds = cards.map((card) => card.card_id);
+
+    const filteredCards = templateCard.filter((card) => cardIds.includes(card.card_id));
+
+    return filteredCards;
 }
 
 export async function GetMessages(roomId: number, user: UserSession) {
