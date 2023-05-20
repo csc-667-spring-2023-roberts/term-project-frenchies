@@ -1,3 +1,15 @@
+export interface CardEntity {
+  card_id: number
+  color: string
+  value: string
+}
+
+export interface CardRoomEntity {
+  card_id: number
+  player_id: number
+  status: string
+}
+
 export interface ConversationEntity {
   id: number
   room_id: number
@@ -17,8 +29,29 @@ export interface PgmigrationEntity {
   run_on: Date
 }
 
+export interface PlayerEntity {
+  player_id: number
+  room_id: number
+  user_id: number
+}
+
+export interface RoomPlayerEntity {
+  player_id: number
+  room_id: number
+}
+
 export interface RoomEntity {
-  id: number
+  actual_card: number
+  actual_color: string
+  name: string
+  order: string
+  room_id: number
+  status: string
+  whoisplaying: number
+}
+
+export interface ScoreboardEntity {
+  room_id: number
 }
 
 export interface SessionEntity {
