@@ -6,8 +6,9 @@ export interface CardEntity {
 
 export interface CardRoomEntity {
   card_id: number
-  player_id: number
+  room_id: number
   status: string
+  user_id: number
 }
 
 export interface ConversationEntity {
@@ -27,17 +28,6 @@ export interface PgmigrationEntity {
   id: number
   name: string
   run_on: Date
-}
-
-export interface PlayerEntity {
-  player_id: number
-  room_id: number
-  user_id: number
-}
-
-export interface RoomPlayerEntity {
-  player_id: number
-  room_id: number
 }
 
 export interface RoomEntity {
@@ -62,8 +52,8 @@ export interface SessionEntity {
 }
 
 export interface UserToRoomEntity {
-  currentroom_id: number
   id: number
+  room_id: number
   user_id: number
 }
 

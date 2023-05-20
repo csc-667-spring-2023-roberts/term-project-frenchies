@@ -5,7 +5,8 @@ export const shorthands: ColumnDefinitions | undefined = undefined;
 
 export async function up(pgm: MigrationBuilder): Promise<void> {
     pgm.createTable('card_room', {
-        player_id: 'id',
+        room_id: 'id',
+        user_id: 'id',
         card_id: 'id',
         status : {
             type: 'varchar(256)',

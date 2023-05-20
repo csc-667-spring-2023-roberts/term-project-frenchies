@@ -15,7 +15,7 @@ export const roomExists: RequestHandler = async (req, res, next: NextFunction) =
 
         const room = await torm.room.FindFirst({
             where: {
-                id: roomId,
+                room_id: roomId,
             },
         });
 
