@@ -44,7 +44,7 @@ router.post(
             const { roomId } = req.body;
 
             if (!user) {
-                throw new ApiError(StatusCodes.NOT_FOUND, `User not found`)
+                throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
             }
             const cards = await controllers.start(roomId);
 
@@ -66,7 +66,7 @@ router.post(
             const { roomId, cardId } = req.body;
 
             if (!user) {
-                throw new ApiError(StatusCodes.NOT_FOUND, `User not found`)
+                throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
             }
             const cards = await controllers.play(roomId, cardId, user.id);
 
@@ -84,10 +84,10 @@ router.get(
     async (req, res, next) => {
         try {
             const user = req.session.user;
-            const roomId  = parseInt(req.params['roomId'])
+            const roomId  = parseInt(req.params['roomId']);
 
             if (!user) {
-                throw new ApiError(StatusCodes.NOT_FOUND, `User not found`)
+                throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
             }
 
             const isUserInRoom = await controllers.isUserInRoom(user.id, roomId);
@@ -112,10 +112,10 @@ router.get(
     async (req, res, next) => {
         try {
             const user = req.session.user;
-            const roomId  = parseInt(req.params['roomId'])
+            const roomId  = parseInt(req.params['roomId']);
 
             if (!user) {
-                throw new ApiError(StatusCodes.NOT_FOUND, `User not found`)
+                throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
             }
 
             const isUserInRoom = await controllers.isUserInRoom(user.id, roomId);
@@ -164,7 +164,7 @@ router.post(
     },
 );
 
-router.post(
+router.delete(
     '/room/leave',
     authMiddleware,
     async (req, res, next) => {
@@ -173,7 +173,7 @@ router.post(
             const { roomId } = req.body;
 
             if (!user) {
-                throw new ApiError(StatusCodes.NOT_FOUND, `User not found`)
+                throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
             }
 
             const isUserInRoom = await controllers.isUserInRoom(user.id, roomId);
@@ -191,7 +191,7 @@ router.post(
     },
 );
 
-router.delete(
+router.post(
     '/room/message',
     authMiddleware,
     roomExists,

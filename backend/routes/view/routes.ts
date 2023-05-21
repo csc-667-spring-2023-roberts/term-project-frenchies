@@ -52,13 +52,13 @@ router.get(
         const roomId = req.params.id;  // Get the room id from the route parameters
         const room = await torm.room.FindFirst({
             where: {
-                id: parseInt(roomId)
+                room_id: parseInt(roomId)
             }
         });  // Find the room with this id
 
         const playersInRoom = await torm.userToRoom.FindAll({
             where: {
-                currentroom_id: parseInt(roomId),
+                room_id: parseInt(roomId),
             }
         });
 
