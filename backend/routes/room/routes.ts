@@ -165,6 +165,33 @@ router.post(
 );
 
 router.post(
+    '/room/leave',
+    authMiddleware,
+    async (req, res, next) => {
+        try {
+            const user = req.session.user;
+            const { roomId } = req.body;
+
+            if (!user) {
+                throw new ApiError(StatusCodes.NOT_FOUND, `User not found`)
+            }
+
+            const isUserInRoom = await controllers.isUserInRoom(user.id, roomId);
+
+            if (!isUserInRoom) {
+                throw new ApiError(StatusCodes.BAD_REQUEST, 'User is not in this room');
+            }
+
+            const leavedUserToRoom = await controllers.Leave(roomId, user.id);
+
+            res.status(StatusCodes.OK).send(leavedUserToRoom);
+        } catch (e) {
+            next(e);
+        }
+    },
+);
+
+router.delete(
     '/room/message',
     authMiddleware,
     roomExists,

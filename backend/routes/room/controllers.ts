@@ -14,6 +14,27 @@ export async function Join(roomId: number, userId: number) {
     return await torm.userToRoom.Join(userId, roomId);
 }
 
+export async function Leave(roomId: number, userId: number) {
+    const deletedUserToRoom = await torm.userToRoom.Delete(userId, roomId);
+    const cardsPlayer = await torm.cardRoom.FindAll({
+        where: {
+            room_id: roomId,
+            user_id: userId
+        }
+    })
+
+    if (!cardsPlayer) {
+        return;
+    }
+
+    for (const card of cardsPlayer) {
+        await torm.cardRoom.free(card.room_id, card.card_id)
+    }
+    return {
+        message: `User ${userId} leaved room and his cards was free`
+    };
+}
+
 export async function SendMessage(roomId: number, content: string, senderId: number) {
     const conversation = await torm.conversation.FindFirst({
         where: {

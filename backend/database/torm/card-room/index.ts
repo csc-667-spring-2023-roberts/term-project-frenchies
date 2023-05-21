@@ -172,6 +172,18 @@ export class CardRoomORM {
         return card as CardRoomEntity;
     }
 
+    public async free(roomId: number, cardId: number) {
+        const card = await db.one(
+            `UPDATE card_room
+            SET status = 'available', user_id = -1
+            WHERE room_id = $1
+              AND card_id = $2
+              RETURNING room_id, card_id, user_id, status`,
+            [roomId, cardId]
+        );
+        return card as CardRoomEntity;
+    }
+
 
     public async FindFirst(condition: FindFirstCondition): Promise<CardRoomEntity | null> {
         try {
