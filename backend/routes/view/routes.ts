@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import crypto from 'crypto';
+import {torm} from '../../database/torm';
 
 const router = Router();
 
@@ -28,32 +28,13 @@ const rooms = [
     { id: 1, name: 'Room 1', players: 10, status: 'Waiting for players' },
     { id: 2,  name: 'Room 2', players: 7, status: 'Game in progress' },
 ];
+
 router.get(
     '/waiting-room',
     (req, res) => {
         res.render('waiting-room', { title: 'Waiting-Room page', rooms: rooms });
     },
 );
-
-const room_players = [
-    {
-        id: '1',
-        name: 'Room 1',
-        players: [
-            { id: '1', name: 'Player 1', isPlaying: false },
-            { id: '2', name: 'Player 2', isPlaying: true },
-            { id: '3', name: 'Player 3', isPlaying: false },
-        ]
-    },
-    {
-        id: '2',
-        name: 'Room 2',
-        players: [
-            { id: '4', name: 'Player 4', isPlaying: true },
-            { id: '5', name: 'Player 5', isPlaying: false },
-        ]
-    },
-];
 
 const playerCards = [
     { id: 1, color: 'red', value: '5' },
@@ -67,13 +48,36 @@ const currentlyCard = { id: 1, color: 'red', value: '9' };
 
 router.get(
     '/game/:id',
-    (req, res) => {
+    async (req, res) => {
         const roomId = req.params.id;  // Get the room id from the route parameters
-        const room = room_players.find(r => r.id === roomId);  // Find the room with this id
+        const room = await torm.room.FindFirst({
+            where: {
+                id: parseInt(roomId)
+            }
+        });  // Find the room with this id
 
-        if (room) {
+        const playersInRoom = await torm.userToRoom.FindAll({
+            where: {
+                currentroom_id: parseInt(roomId),
+            }
+        });
+
+        if (room && playersInRoom) {
             // If the room was found, render the game page with the room's data
-            res.render('game', { room: room, playerCards: playerCards, currentlyCard: currentlyCard });
+            res.render('game', {
+                room: {
+                    name: `Room ${roomId}`,
+                    players: playersInRoom.map((p) => {
+                        return {
+                            id: p.id,
+                            name: `Player ${p.id}`,
+                            isPlaying: false,
+                        };
+                    })
+                },
+                playerCards: playerCards,
+                currentlyCard: currentlyCard,
+            });
         } else {
             // If the room was not found, respond with a 404 status
             res.status(404).send('Room not found');

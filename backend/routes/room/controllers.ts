@@ -1,14 +1,16 @@
 import {torm} from '../../database/torm';
+import {buildMessageListRO} from './helpers';
+import {UserSession} from '../../app.session';
 
 export async function Create() {
     const room = await torm.room.Create();
-    const conversation = await torm.conversation.Create(room.id); // TODO: maybe change this
+    await torm.conversation.Create(room.id);
+
     return room;
 }
 
 export async function Join(roomId: number, userId: number) {
-    const addedUserToRoom = await torm.userToRoom.Join(userId, roomId);
-    return addedUserToRoom;
+    return await torm.userToRoom.Join(userId, roomId);
 }
 
 export async function SendMessage(roomId: number, content: string, senderId: number) {
@@ -16,29 +18,27 @@ export async function SendMessage(roomId: number, content: string, senderId: num
         where: {
             roomid: roomId,
         },
-    })
+    });
 
     if (!conversation) {
         return null;
     }
 
-    const sendedMessage = await torm.message.Create(conversation.id, content, senderId)
-    return sendedMessage;
+    return await torm.message.Create(conversation.id, content, senderId);
 }
 
 export async function FindAll() {
-    const rooms = await torm.room.FindAll();
-    return rooms;
+    return await torm.room.FindAll();
 }
 
-export async function GetMessages(roomId: number) {
-
+export async function GetMessages(roomId: number, user: UserSession) {
     const conversation = await torm.conversation.FindFirst({
         where: {
             roomid: roomId,
         },
-    })
+    });
 
+    // TODO: Fix this way of handling errors.
     if (!conversation) {
         return null;
     }
@@ -46,19 +46,23 @@ export async function GetMessages(roomId: number) {
     const messages = await torm.message.FindAll({
         where: {
             conv_id: conversation.id,
-        }
-    })
-    return messages;
+        },
+    });
+
+    // TODO: Fix this way of handling errors.
+    if (!messages) {
+        return null;
+    }
+
+    return buildMessageListRO(messages, user);
 }
 
 export async function GetUsers(roomId: number) {
-
-    const users = await torm.userToRoom.FindAll({
+    return await torm.userToRoom.FindAll({
         where: {
             currentroom_id: roomId,
-        }
-    })
-    return users;
+        },
+    });
 }
 
 export async function isUserInRoom(userId:number, roomId: number) {

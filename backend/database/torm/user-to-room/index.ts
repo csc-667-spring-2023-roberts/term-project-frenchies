@@ -8,19 +8,19 @@ import queryResultErrorCode = pgPromise.errors.queryResultErrorCode;
 export class UserToRoomORM {
     public async Join(userId: number, roomId: number): Promise<UserToRoomEntity> {
         const addedUserToRoom = await db.one(
-          'insert into user_to_room (currentroom_id, user_id) values ($1, $2) returning id, currentroom_id, user_id',
-          [roomId, userId]
+            'insert into user_to_room (currentroom_id, user_id) values ($1, $2) returning id, currentroom_id, user_id',
+            [roomId, userId]
         );
         return addedUserToRoom as UserToRoomEntity;
     }
 
-    public async isUserInRoom(userId: number, roomId: number): Promise<Boolean> {
+    public async isUserInRoom(userId: number, roomId: number): Promise<boolean> {
         const userInRoom = await this.FindFirst({
             where: {
                 currentroom_id: roomId,
                 user_id: userId
             }
-        })
+        });
 
         if (userInRoom === null) {
             return false;

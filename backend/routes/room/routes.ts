@@ -42,18 +42,22 @@ router.post(
             const { roomId } = req.body;
 
             if (!user) {
-                throw new ApiError(StatusCodes.NOT_FOUND, `User not found`)
+                throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
             }
 
             const isUserInRoom = await controllers.isUserInRoom(user.id, roomId);
 
             if (isUserInRoom) {
-                throw new ApiError(StatusCodes.BAD_REQUEST, 'User is already in this room');
+                res.status(StatusCodes.OK).send({
+                    currentroom_id: roomId,
+                    id: 0,
+                    user_id: user.id,
+                });
+                // throw new ApiError(StatusCodes.BAD_REQUEST, 'User is already in this room');
+            } else {
+                const addedUserToRoom = await controllers.Join(roomId, user.id);
+                res.status(StatusCodes.OK).send(addedUserToRoom);
             }
-
-            const addedUserToRoom = await controllers.Join(roomId, user.id);
-
-            res.status(StatusCodes.OK).send(addedUserToRoom);
         } catch (e) {
             next(e);
         }
@@ -70,7 +74,7 @@ router.post(
             const { content, roomId } = req.body;
 
             if (!user) {
-                throw new ApiError(StatusCodes.NOT_FOUND, `User not found`)
+                throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
             }
 
             const isUserInRoom = await controllers.isUserInRoom(user.id, roomId);
@@ -79,9 +83,21 @@ router.post(
                 throw new ApiError(StatusCodes.BAD_REQUEST, 'User is not in this room');
             }
 
-            const sendedMessage = await controllers.SendMessage(roomId, content, user.id);
+            const sentMessage = await controllers.SendMessage(roomId, content, user.id);
 
-            res.status(StatusCodes.CREATED).send(sendedMessage);
+            if (!sentMessage) {
+                throw new ApiError(StatusCodes.INTERNAL_SERVER_ERROR, 'Failed to save new message');
+            }
+
+            const io = req.app.get('io');
+
+            console.log(`chat-room-${roomId}`);
+            io.emit(`chat-room-${roomId}`, {
+                newMessage: content,
+                senderUsername: `Player ${user.id}`,
+            });
+
+            res.status(StatusCodes.CREATED).send(sentMessage);
         } catch (e) {
             next(e);
         }
@@ -95,10 +111,10 @@ router.get(
     async (req, res, next) => {
         try {
             const user = req.session.user;
-            const roomId  = parseInt(req.params['roomId'])
+            const roomId  = parseInt(req.params['roomId']);
 
             if (!user) {
-                throw new ApiError(StatusCodes.NOT_FOUND, `User not found`)
+                throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
             }
 
             const isUserInRoom = await controllers.isUserInRoom(user.id, roomId);
@@ -107,7 +123,7 @@ router.get(
                 throw new ApiError(StatusCodes.BAD_REQUEST, 'User is not in this room');
             }
 
-            const message = await controllers.GetMessages(roomId);
+            const message = await controllers.GetMessages(roomId, user);
 
             res.status(StatusCodes.OK).send(message);
         } catch (e) {
@@ -123,10 +139,10 @@ router.get(
     async (req, res, next) => {
         try {
             const user = req.session.user;
-            const roomId  = parseInt(req.params['roomId'])
+            const roomId  = parseInt(req.params['roomId']);
 
             if (!user) {
-                throw new ApiError(StatusCodes.NOT_FOUND, `User not found`)
+                throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
             }
 
             const message = await controllers.GetUsers(roomId);

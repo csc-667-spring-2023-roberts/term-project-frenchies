@@ -2,13 +2,16 @@ import logger from './services/logger';
 import app from './app';
 import {ServerConfiguration} from './app.config';
 import {gracefullyCloseConnections} from './app.handlers';
+import initSockets from './services/socket';
 
 /**
  * The entry point for our backend service.
  * Starts the server based on the configuration values extracted from the environment.
  */
 async function main() {
-    app.listen(ServerConfiguration.port, () => logger.info(`server is listening on port ${ServerConfiguration.port}`));
+    const server = initSockets(app);
+
+    server.listen(ServerConfiguration.port, () => logger.info(`server is listening on port ${ServerConfiguration.port}`));
 }
 
 /**

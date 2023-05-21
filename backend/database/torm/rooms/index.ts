@@ -35,7 +35,7 @@ export class RoomORM {
     public async FindAll(): Promise<RoomEntity[] | null> {
         try {
             const rooms = await db.any(
-                `SELECT * FROM rooms`
+                'SELECT * FROM rooms'
             );
 
             return rooms as RoomEntity[];
