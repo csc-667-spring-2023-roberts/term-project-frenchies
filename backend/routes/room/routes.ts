@@ -105,6 +105,34 @@ router.get(
     },
 );
 
+router.get(
+    '/room/:roomId/infos',
+    authMiddleware,
+    roomExists,
+    async (req, res, next) => {
+        try {
+            const user = req.session.user;
+            const roomId  = parseInt(req.params['roomId'])
+
+            if (!user) {
+                throw new ApiError(StatusCodes.NOT_FOUND, `User not found`)
+            }
+
+            const isUserInRoom = await controllers.isUserInRoom(user.id, roomId);
+
+            if (!isUserInRoom) {
+                throw new ApiError(StatusCodes.BAD_REQUEST, 'User is not in this room');
+            }
+
+            const room = await controllers.infosRoom(roomId);
+
+            res.status(StatusCodes.OK).send(room);
+        } catch (e) {
+            next(e);
+        }
+    },
+);
+
 router.post(
     '/room/join',
     authMiddleware,

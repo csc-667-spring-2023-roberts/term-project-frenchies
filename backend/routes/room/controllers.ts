@@ -143,6 +143,25 @@ export async function myCards(roomId: number, userId: number) {
     return filteredCards;
 }
 
+export async function infosRoom(roomId: number) {
+
+    const room = await torm.room.FindFirst({
+        where: {
+            room_id: roomId
+        }
+    });
+
+    const playerInfos = await torm.cardRoom.countCardsPerUserInRoom(roomId);
+
+    const result = {
+        gameInfo : room,
+        playerInfos: playerInfos,
+        actualCardInfo: templateCard.find((card) => card.card_id === room!.actual_card)
+    };
+
+    return result;
+}
+
 export async function GetMessages(roomId: number, user: UserSession) {
     const conversation = await torm.conversation.FindFirst({
         where: {

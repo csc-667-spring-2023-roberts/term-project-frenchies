@@ -21,7 +21,7 @@ export class RoomORM {
         try {
             const conditionQuery = FindFirstConditionToQuery(condition);
             const room = await db.one(
-                `SELECT room_id FROM rooms WHERE ${conditionQuery}`,
+                `SELECT * FROM rooms WHERE ${conditionQuery}`,
                 [condition.where.room_id]
             );
 
