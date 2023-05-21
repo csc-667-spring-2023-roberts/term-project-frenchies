@@ -34,32 +34,24 @@
 
 </head>
 <body>
-<script type="text/javascript" src="/helpers.root.js"></script>
+<script type="text/javascript" src="/game.js"></script>
 <%- include('top-bar') %>
-<h1>Game Room: <%= room.name %></h1>
+<button id="startGameButton">Start Game</button>
+<h1 id="gameRoomTitle">Game Room</h1>
 <div class="game-area">
     <div class="player-info">
         <h2>Player Info</h2>
-
-        <% for (let player of room.players) { %>
-            <p class="<%= player.isPlaying ? 'current-player' : '' %>"><%= player.name %></p>
-        <% } %>
+        <!-- Player information will be populated here by JavaScript -->
     </div>
     <div class="game-board">
         <h2>Game Board</h2>
-        <div id="<%= currentlyCard.id %>" class="card <%= currentlyCard.color %>">
-            <p><%= currentlyCard.value %></p>
-        </div>
+        <!-- The game board will be populated here by JavaScript -->
     </div>
 </div>
-<h2>Your Cards</h2>
 
+<h2>Your Cards</h2>
 <div class="card-area">
-    <% for (let card of playerCards) { %>
-        <div id="<%= card.id %>" class="card <%= card.color %>" onclick="selectCard('<%= JSON.stringify(card) %>')">
-            <p><%= card.value %></p>
-        </div>
-    <% } %>
+    <!-- Your cards will be populated here by JavaScript -->
 </div>
 <style>
     .card-area {
