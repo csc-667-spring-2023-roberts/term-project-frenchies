@@ -31,8 +31,7 @@ function loadRooms() {
                 const roomCard = document.createElement('div');
                 roomCard.className = 'card';
                 roomCard.innerHTML = `
-                <div class="room-name">Room Name: ${room.room_id}</div>
-                <div class="room-details">Players: ${room.players} / 15</div>
+                <div class="room-name">Room Name: ${room.name}</div>
                 <div class="room-details">Status: ${room.status}</div>
             `;
                 roomCard.addEventListener('click', function() {

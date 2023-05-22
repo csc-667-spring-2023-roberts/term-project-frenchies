@@ -20,6 +20,41 @@ window.addEventListener('DOMContentLoaded', (event) => {
             .catch(error => console.error('Error:', error));
     });
 
+    // Add event listener to the leave game button
+    let leaveGameButton = document.getElementById('leaveGameButton');
+    leaveGameButton.addEventListener('click', function() {
+        fetch('http://localhost:8080/room/leave', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                roomId: roomId
+            })
+        })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+    });
+
+    // Add event listener to the draw card button
+    let drawCardButton = document.getElementById('drawCardButton');
+    drawCardButton.addEventListener('click', function() {
+        fetch('http://localhost:8080/room/play', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                roomId: roomId,
+                cardId: -1
+            })
+        })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+    });
+
     // Fetch room information
     fetch('http://localhost:8080/room/' + roomId + '/infos')
         .then(response => response.json())

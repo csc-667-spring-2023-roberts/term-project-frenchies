@@ -6,7 +6,7 @@ const router = Router();
 router.get(
     '/',
     (req, res) => {
-        res.render('root', { title: 'Root page' });
+        res.render('waiting-room', { title: 'Hub page' });
     },
 );
 
@@ -23,28 +23,6 @@ router.get(
         res.render('login', { title: 'Login page' });
     },
 );
-
-const rooms = [
-    { id: 1, name: 'Room 1', players: 10, status: 'Waiting for players' },
-    { id: 2,  name: 'Room 2', players: 7, status: 'Game in progress' },
-];
-
-router.get(
-    '/waiting-room',
-    (req, res) => {
-        res.render('waiting-room', { title: 'Waiting-Room page', rooms: rooms });
-    },
-);
-
-const playerCards = [
-    { id: 1, color: 'red', value: '5' },
-    { id: 2, color: 'blue', value: 'Skip' },
-    { id: 3, color: 'yellow', value: '9' },
-    { id: 4, color: 'green', value: 'Reverse' },
-    { id: 5, color: 'black', value: '+4' },
-];
-
-const currentlyCard = { id: 1, color: 'red', value: '9' };
 
 router.get(
     '/game/:id',
@@ -64,20 +42,7 @@ router.get(
 
         if (room && playersInRoom) {
             // If the room was found, render the game page with the room's data
-            res.render('game', {
-                room: {
-                    name: `Room ${roomId}`,
-                    players: playersInRoom.map((p) => {
-                        return {
-                            id: p.id,
-                            name: `Player ${p.id}`,
-                            isPlaying: false,
-                        };
-                    })
-                },
-                playerCards: playerCards,
-                currentlyCard: currentlyCard,
-            });
+            res.render('game');
         } else {
             // If the room was not found, respond with a 404 status
             res.status(404).send('Room not found');
