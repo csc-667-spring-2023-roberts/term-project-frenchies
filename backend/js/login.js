@@ -29,7 +29,7 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
         .then(data => {
             console.log(data);
             // Redirect to home page
-            window.location.replace('/waiting-room');
+            window.location.replace('/');
         })
         .catch(error => {
             console.error('Error:', error);

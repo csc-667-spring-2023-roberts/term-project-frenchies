@@ -139,26 +139,26 @@ export class CardRoomORM {
 
     public async countCardsPerUserInRoom(roomId: number): Promise<{ userId: number, cardCount: number }[]> {
         try {
-          const result = await db.any(
-            `SELECT user_id, COUNT(*) AS card_count
+            const result = await db.any(
+                `SELECT user_id, COUNT(*) AS card_count
             FROM card_room
             WHERE room_id = $1 AND status = 'assigned'
             GROUP BY user_id`,
-            [roomId]
-          );
+                [roomId]
+            );
 
-          return result.map((row: any) => ({
-            userId: row.user_id,
-            cardCount: row.card_count,
-          }));
+            return result.map((row: any) => ({
+                userId: row.user_id,
+                cardCount: row.card_count,
+            }));
         } catch (e) {
-          if (e instanceof QueryResultError && e.code === queryResultErrorCode.noData) {
-            return []; // Si aucune donnée n'est trouvée, renvoie un tableau vide
-          }
+            if (e instanceof QueryResultError && e.code === queryResultErrorCode.noData) {
+                return []; // Si aucune donnée n'est trouvée, renvoie un tableau vide
+            }
 
-          throw e;
+            throw e;
         }
-      }
+    }
 
     public async play(roomId: number, cardId: number, userId: number) {
         const card = await db.one(

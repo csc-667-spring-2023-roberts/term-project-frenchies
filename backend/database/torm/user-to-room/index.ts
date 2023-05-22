@@ -50,8 +50,8 @@ export class UserToRoomORM {
 
     public async Delete(userId: number, roomId: number): Promise<void> {
         await db.none(
-          'DELETE FROM user_to_room WHERE room_id = $1 AND user_id = $2',
-          [roomId, userId]
+            'DELETE FROM user_to_room WHERE room_id = $1 AND user_id = $2',
+            [roomId, userId]
         );
     }
 

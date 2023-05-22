@@ -77,6 +77,13 @@ router.post(
             }
             const cards = await controllers.play(roomId, cardId, user.id);
 
+            const io = req.app.get('io');
+
+            io.emit(`chat-room-${roomId}-game`, {
+                newMessage: {},
+                senderUsername: `Player ${user.id}`,
+            });
+
             res.status(StatusCodes.OK).send(cards);
         } catch (e) {
             next(e);
@@ -225,7 +232,6 @@ router.post(
 
             const io = req.app.get('io');
 
-            console.log(`chat-room-${roomId}`);
             io.emit(`chat-room-${roomId}`, {
                 newMessage: content,
                 senderUsername: `Player ${user.id}`,

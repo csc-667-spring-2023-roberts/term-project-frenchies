@@ -40,4 +40,3 @@ socket.on(`chat-room-${gameId}`, ({ newMessage, senderUsername }) => {
             console.error(err);
         });
 });
-

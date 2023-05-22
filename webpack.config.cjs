@@ -1,11 +1,11 @@
 const path = require("path");
 
 module.exports = {
-    entry: "./frontend/index.ts",
+    entry: "./frontend/chat.ts",
     output: {
         path: path.join(__dirname, "backend", "static", "scripts"),
         publicPath: "/backend/static/scripts",
-        filename: "bundle.js",
+        filename: "bundle-chat.js",
     },
     mode: "production",
     module: {

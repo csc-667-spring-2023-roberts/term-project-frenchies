@@ -11,7 +11,7 @@ export async function Create(userId: number) {
         where: {
             id: userId
         }
-    })
+    });
 
     if (!user) {
         throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
@@ -28,14 +28,14 @@ export async function Join(roomId: number, userId: number) {
         where: {
             room_id: roomId
         }
-    })
+    });
 
     if (!room) {
         return;
     }
 
-    if (room.status === "inProgress") {
-        throw new ApiError(StatusCodes.BAD_REQUEST, "Game already started")
+    if (room.status === 'inProgress') {
+        throw new ApiError(StatusCodes.BAD_REQUEST, 'Game already started');
     }
 
     return await torm.userToRoom.Join(userId, roomId);
@@ -48,14 +48,14 @@ export async function Leave(roomId: number, userId: number) {
             room_id: roomId,
             user_id: userId
         }
-    })
+    });
 
     if (!cardsPlayer) {
         return;
     }
 
     for (const card of cardsPlayer) {
-        await torm.cardRoom.free(card.room_id, card.card_id)
+        await torm.cardRoom.free(card.room_id, card.card_id);
     }
     return {
         message: `User ${userId} leaved room and his cards was free`
@@ -86,10 +86,10 @@ export async function giveCardToUser(userId: number, numberOfCard: number, roomI
             room_id: roomId,
             status: 'available'
         }
-    })
+    });
 
     if (!cards)  {
-        throw new ApiError(StatusCodes.BAD_REQUEST, 'No more cards')
+        throw new ApiError(StatusCodes.BAD_REQUEST, 'No more cards');
     }
 
     if (cards.length < numberOfCard) {
@@ -105,11 +105,11 @@ export async function giveCardToUser(userId: number, numberOfCard: number, roomI
 
 export async function play(roomId: number, cardId: number, userId: number) {
 
-    let roomInfo = await torm.room.FindFirst({
+    const roomInfo = await torm.room.FindFirst({
         where: {
             room_id: roomId
         }
-    })
+    });
 
     if (roomInfo?.whoisplaying != userId) {
         throw new ApiError(StatusCodes.BAD_REQUEST, 'Not your turn');
@@ -130,21 +130,21 @@ export async function play(roomId: number, cardId: number, userId: number) {
     let next = 1;
 
     if (cardId === -1) {
-        await giveCardToUser(userId, 1, roomId)
+        await giveCardToUser(userId, 1, roomId);
     } else {
 
-        const actual_card = templateCard.find((card) => card.card_id === roomInfo?.actual_card)
-        const play_card = templateCard.find((card) => card.card_id === cardId)
+        const actual_card = templateCard.find((card) => card.card_id === roomInfo?.actual_card);
+        const play_card = templateCard.find((card) => card.card_id === cardId);
 
         if (play_card?.color !== actual_card?.color && play_card?.value !== actual_card?.value) {
-            throw new ApiError(StatusCodes.BAD_REQUEST, `Can't play this card`);
+            throw new ApiError(StatusCodes.BAD_REQUEST, 'Can\'t play this card');
         }
 
-        if (play_card?.value === "reverse") {
-            roomInfo.order = 'DESC'
+        if (play_card?.value === 'reverse') {
+            roomInfo.order = 'DESC';
         }
 
-        if (play_card?.value === "skip") {
+        if (play_card?.value === 'skip') {
             next = 2;
         }
 
@@ -155,17 +155,17 @@ export async function play(roomId: number, cardId: number, userId: number) {
             nextIndex = (userIndex + next) % users.length;
         }
 
-        if (play_card?.value === "+2") {
+        if (play_card?.value === '+2') {
             await giveCardToUser(users[nextIndex].id, 2, roomId);
         }
 
-        if (play_card?.value === "+4") {
+        if (play_card?.value === '+4') {
             await giveCardToUser(users[nextIndex].id, 4, roomId);
         }
 
         const played = await torm.cardRoom.play(roomId, cardId, -1);
         roomInfo.actual_card = cardId;
-        roomInfo.actual_color =  actual_card!.color
+        roomInfo.actual_color =  actual_card!.color;
     }
 
     if (roomInfo?.order === 'DESC') {
@@ -234,7 +234,7 @@ export async function start(roomId: number) {
     const played = await torm.cardRoom.play(roomId, firstCard.card_id, -1);
     const updatedRoom = await torm.room.Update(roomId, firstCard.card_id, users[0]?.id, 'blue', 'inProgress', 'ASC');
 
-   const result = await infosRoom(roomId);
+    const result = await infosRoom(roomId);
 
     return result;
 }
@@ -261,7 +261,7 @@ export async function myCards(roomId: number, userId: number) {
 
 export async function infosRoom(roomId: number) {
 
-    let result : {
+    const result : {
         gameInfo: RoomEntity | null,
         playerInfos: any,
         actualCardInfo: any
@@ -282,13 +282,13 @@ export async function infosRoom(roomId: number) {
     }
 
     result.gameInfo = room;
-    result.actualCardInfo = templateCard.find((card) => card.card_id === room!.actual_card)
+    result.actualCardInfo = templateCard.find((card) => card.card_id === room!.actual_card);
 
     const users = await torm.userToRoom.FindAll({
         where: {
             room_id: roomId
         }
-    })
+    });
 
     if (!users) {
         return result;
@@ -296,19 +296,19 @@ export async function infosRoom(roomId: number) {
 
     const playerInfos = await torm.cardRoom.countCardsPerUserInRoom(roomId);
     for (const player of users) {
-        const find = playerInfos.find((p) => p.userId === player.id)
+        const find = playerInfos.find((p) => p.userId === player.id);
         if (!find) {
             playerInfos.push({
                 userId: player.id,
                 cardCount: 0
-            })
+            });
             if (result.gameInfo.status === 'inProgress') {
-                result.gameInfo.order = 'finish'
+                result.gameInfo.order = 'finish';
                 const updatedRoom = await torm.room.Update(roomId, room.actual_card, room.whoisplaying, room.actual_color, 'finish', room.order);
             }
         }
     }
-    result.playerInfos = playerInfos
+    result.playerInfos = playerInfos;
 
     return result;
 }

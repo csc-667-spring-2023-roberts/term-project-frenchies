@@ -436,4 +436,4 @@ export default [
         color: 'blue',
         value: '+4'
     }
-]
+];

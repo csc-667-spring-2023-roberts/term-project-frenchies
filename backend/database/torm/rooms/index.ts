@@ -64,7 +64,7 @@ export class RoomORM {
         } catch (error) {
             // Gérer l'erreur ici
             console.log(error);
-            throw new Error("Échec de la mise à jour de la salle de jeu. Veuillez réessayer plus tard.");
+            throw new Error('Échec de la mise à jour de la salle de jeu. Veuillez réessayer plus tard.');
         }
     }
 }
