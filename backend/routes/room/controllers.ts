@@ -148,12 +148,19 @@ export async function play(roomId: number, cardId: number, userId: number) {
             next = 2;
         }
 
+        if (roomInfo?.order === 'DESC') {
+            users.reverse();
+            nextIndex = (users.length - (userIndex + next)) % users.length;
+        } else {
+            nextIndex = (userIndex + next) % users.length;
+        }
+
         if (play_card?.value === "+2") {
-            await giveCardToUser(nextIndex, 2, roomId);
+            await giveCardToUser(users[nextIndex].id, 2, roomId);
         }
 
         if (play_card?.value === "+4") {
-            await giveCardToUser(nextIndex, 4, roomId);
+            await giveCardToUser(users[nextIndex].id, 4, roomId);
         }
 
         const played = await torm.cardRoom.play(roomId, cardId, -1);
