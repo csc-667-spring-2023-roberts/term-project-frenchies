@@ -10,12 +10,12 @@ export const roomExists: RequestHandler = async (req, res, next: NextFunction) =
     try {
         let { roomId } = req.body;
         if (roomId === undefined) {
-            roomId = parseInt(req.params["roomId"])
+            roomId = parseInt(req.params['roomId']);
         }
 
-        const room = await torm.users.FindFirst({
+        const room = await torm.room.FindFirst({
             where: {
-                id: roomId,
+                room_id: roomId,
             },
         });
 

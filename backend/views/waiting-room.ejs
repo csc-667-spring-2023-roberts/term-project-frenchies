@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' script-src: 'self' 'unsafe-inline'">
+    <style>
+        body {
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid black;
+            padding: 20px;
+            margin: 10px;
+            text-decoration: none;
+            color: inherit;
+            cursor: pointer;
+        }
+
+        .card .room-name {
+            font-weight: bold;
+        }
+
+        .card .room-details {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<%- include('top-bar') %> <!-- Including the top bar -->
+<h1>Game Hub</h1>
+<button id="createRoom">Create Room</button>
+<div id="roomList"></div>
+<script type="text/javascript" src="/room.js"></script>
+</body>
+</html>

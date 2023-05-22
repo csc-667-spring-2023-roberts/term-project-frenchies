@@ -24,3 +24,17 @@ export async function Login(username: string, password: string) {
 
     return buildUserLoginRO(user);
 }
+
+export async function Get(userID: number) {
+    const user = await torm.users.FindFirst({
+        where: {
+            id: userID,
+        },
+    });
+
+    if (!user) {
+        throw new ApiError(StatusCodes.UNAUTHORIZED, 'User not found');
+    }
+
+    return buildUserLoginRO(user);
+}

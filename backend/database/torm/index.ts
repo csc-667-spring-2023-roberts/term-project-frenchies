@@ -1,3 +1,4 @@
+import { CardRoomORM } from './card-room';
 import { ConversationORM } from './conversations';
 import { MessageORM } from './message';
 import { RoomORM } from './rooms';
@@ -10,6 +11,7 @@ export class Torm {
     public conversation = new ConversationORM();
     public userToRoom = new UserToRoomORM();
     public message = new MessageORM();
+    public cardRoom = new CardRoomORM();
 }
 
 export const torm = new Torm();

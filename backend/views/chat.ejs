@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' script-src: 'self' 'unsafe-inline'">
+    <title>Chat Console</title>
+    <style>
+        #container-chat {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            padding: 12px;
+            border: none;
+        }
+
+        #chat {
+            height: 300px;
+            border: 1px solid #ccc;
+            overflow-y: scroll;
+            padding: 12px;
+        }
+
+        .message-container {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+
+        .message-container p {
+            margin: 0;
+        }
+
+        .message-container .username {
+            font-weight: bold;
+        }
+
+        .message-container.right {
+            align-items: flex-end;
+        }
+        #container-hstack-input {
+            display: flex;
+            flex: 1;
+            justify-content: space-between;
+            flex-direction: row;
+        }
+
+        #message {
+            margin: 12px;
+
+            width: 80%;
+        }
+    </style>
+    <script type="text/javascript" src="/scripts/bundle-chat.js"></script>
+</head>
+<body>
+<div id="container-chat">
+    <h3>Chat</h3>
+    <div id="chat"></div>
+    <div id="container-hstack-input">
+        <input type="text" id="message">
+        <button id="send">Envoyer</button>
+    </div>
+    <script type="text/javascript" src="/chat.js"></script>
+</div>
+</body>
+</html>

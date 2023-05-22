@@ -4,14 +4,12 @@ import { MigrationBuilder, ColumnDefinitions } from 'node-pg-migrate';
 export const shorthands: ColumnDefinitions | undefined = undefined;
 
 export async function up(pgm: MigrationBuilder): Promise<void> {
-    pgm.createTable('user_to_room', {
-        id: 'id',
+    pgm.createTable('scoreboard', {
         room_id: 'id',
-        user_id: 'id',
     });
+
 }
 
 export async function down(pgm: MigrationBuilder): Promise<void> {
-    pgm.dropTable('user_to_room');
-}
 
+}
