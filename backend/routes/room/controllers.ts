@@ -151,6 +151,7 @@ export async function play(roomId: number, cardId: number, userId: number) {
         if (roomInfo?.order === 'DESC') {
             users.reverse();
             nextIndex = (users.length - (userIndex + next)) % users.length;
+            users.reverse();
         } else {
             nextIndex = (userIndex + next) % users.length;
         }
@@ -171,6 +172,7 @@ export async function play(roomId: number, cardId: number, userId: number) {
     if (roomInfo?.order === 'DESC') {
         users.reverse();
         nextIndex = (users.length - (userIndex + next)) % users.length;
+        users.reverse();
     } else {
         nextIndex = (userIndex + next) % users.length;
     }
