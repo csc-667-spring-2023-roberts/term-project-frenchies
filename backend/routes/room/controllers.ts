@@ -136,10 +136,8 @@ export async function play(roomId: number, cardId: number, userId: number) {
         const actual_card = templateCard.find((card) => card.card_id === roomInfo?.actual_card)
         const play_card = templateCard.find((card) => card.card_id === cardId)
 
-        if (play_card?.color !== 'black') {
-            if (play_card?.color !== actual_card?.color && play_card?.value !== actual_card?.value) {
-                throw new ApiError(StatusCodes.BAD_REQUEST, `Can't play this card`);
-            }
+        if (play_card?.color !== actual_card?.color && play_card?.value !== actual_card?.value) {
+            throw new ApiError(StatusCodes.BAD_REQUEST, `Can't play this card`);
         }
 
         if (play_card?.value === "reverse") {

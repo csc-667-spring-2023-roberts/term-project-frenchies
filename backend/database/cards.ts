@@ -101,13 +101,13 @@ export default [
         value: '+2'
     },{
         card_id: 26,
-        color: 'black',
+        color: 'yellow',
         value: '+4'
     }
     ,{
         card_id: 27,
-        color: 'black',
-        value: 'change'
+        color: 'yellow',
+        value: '+4'
     }, {
         card_id: 28,
         color: 'green',
@@ -210,13 +210,13 @@ export default [
         value: '+2'
     },{
         card_id: 53,
-        color: 'black',
+        color: 'green',
         value: '+4'
     }
     ,{
         card_id: 54,
-        color: 'black',
-        value: 'change'
+        color: 'green',
+        value: '+4'
     },{
         card_id: 55,
         color: 'red',
@@ -319,13 +319,13 @@ export default [
         value: '+2'
     },{
         card_id: 80,
-        color: 'black',
+        color: 'red',
         value: '+4'
     }
     ,{
         card_id: 81,
-        color: 'black',
-        value: 'change'
+        color: 'red',
+        value: '+4'
     },{
         card_id: 82,
         color: 'blue',
@@ -428,12 +428,12 @@ export default [
         value: '+2'
     },{
         card_id: 107,
-        color: 'black',
+        color: 'blue',
         value: '+4'
     }
     ,{
         card_id: 108,
-        color: 'black',
-        value: 'change'
+        color: 'blue',
+        value: '+4'
     }
 ]
