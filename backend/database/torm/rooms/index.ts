@@ -51,14 +51,14 @@ export class RoomORM {
         }
     }
 
-    public async Update(roomId: number, actualCard: number, actualPlayer: number, actualColor: string, status: string): Promise<RoomEntity> {
+    public async Update(roomId: number, actualCard: number, actualPlayer: number, actualColor: string, status: string, order: string): Promise<RoomEntity> {
         try {
             const updatedRoom = await db.one(
                 `UPDATE rooms
-                SET actual_card = $2, actual_color = $3, whoisplaying = $4, status = $5
+                SET actual_card = $2, actual_color = $3, whoisplaying = $4, status = $5, "order" = $6
                 WHERE room_id = $1
                 RETURNING room_id, actual_card, actual_color, name, "order", status, whoisplaying`,
-                [roomId, actualCard, actualColor, actualPlayer, status]
+                [roomId, actualCard, actualColor, actualPlayer, status, order]
             );
             return updatedRoom as RoomEntity;
         } catch (error) {

@@ -9,9 +9,16 @@ const router = Router();
 
 router.post(
     '/room/create',
-    async (_, res, next) => {
+    authMiddleware,
+    async (req, res, next) => {
         try {
-            const createdRoom = await controllers.Create();
+            const user = req.session.user;
+
+            if (!user) {
+                throw new ApiError(StatusCodes.NOT_FOUND, 'User not found');
+            }
+
+            const createdRoom = await controllers.Create(user.id);
 
             res.status(StatusCodes.CREATED).send(createdRoom);
         } catch (e) {
